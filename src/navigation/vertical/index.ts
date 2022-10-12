@@ -18,42 +18,56 @@ import FileDocumentOutline from 'mdi-material-ui/FileDocumentOutline'
 import CalendarBlankOutline from 'mdi-material-ui/CalendarBlankOutline'
 import PackageVariantClosed from 'mdi-material-ui/PackageVariantClosed'
 import GoogleCirclesExtended from 'mdi-material-ui/GoogleCirclesExtended'
-import CheckboxMarkedCircleOutline from 'mdi-material-ui/CheckboxMarkedCircleOutline'
+import MonitorDashboard from 'mdi-material-ui/MonitorDashboard'
 import CarElectricOutline from 'mdi-material-ui/CarElectricOutline'
 import EvStation from 'mdi-material-ui/EvStation'
 import CarWrench from 'mdi-material-ui/CarWrench'
+import Plus from 'mdi-material-ui/Plus'
+
 // ** Type import
 import { VerticalNavItemsType } from 'src/@core/layouts/types'
 
 const navigation = (): VerticalNavItemsType => {
   return [
     {
-      title: 'Vehicles',
-      icon: CarElectricOutline,
+      title: 'Admin',
+      icon: MonitorDashboard,
       children: [
         {
           title: 'vehicles database',
-          path: '/apps/vehicle/list'
+          icon: CarElectricOutline,
+          path: '/apps/admin/list'
         },
         {
           title: 'add new vehicle',
-          path: '/apps/vehicle/add'
+          icon: Plus,
+          path: '/apps/admin/add'
+        },
+        {
+          title: 'Chargers',
+          icon: EvStation,
+          path: '/apps/admin/chargers'
+        },
+        {
+          title: 'Maintainers',
+          icon: CarWrench,
+          path: '/apps/admin/maintainers'
         }
       ]
-    },
-    {
-      sectionTitle: 'Chargers & Maintainers'
-    },
-    {
-      title: 'Chargers',
-      icon: EvStation,
-      path: '/apps/vehicle/chargers'
-    },
-    {
-      title: 'Maintainers',
-      icon: CarWrench,
-      path: '/apps/vehicle/maintainers'
     }
+    // {
+    //   sectionTitle: 'Chargers & Maintainers'
+    // },
+    // {
+    //   title: 'Chargers',
+    //   icon: EvStation,
+    //   path: '/apps/admin/chargers'
+    // },
+    // {
+    //   title: 'Maintainers',
+    //   icon: CarWrench,
+    //   path: '/apps/admin/maintainers'
+    // }
     // {
     //   title: 'Calendar',
     //   icon: CalendarBlankOutline,
