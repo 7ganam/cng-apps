@@ -143,16 +143,16 @@ const RowOptions = ({ id }: { id: number | string }) => {
           <Download fontSize='small' sx={{ mr: 2 }} />
           Download
         </MenuItem>
-        <Link href={`/apps/invoice/edit/${id}`} passHref>
-          <MenuItem>
-            <PencilOutline fontSize='small' sx={{ mr: 2 }} />
-            Edit
-          </MenuItem>
-        </Link>
+        {/* <Link href={`/apps/invoice/edit/${id}`} passHref> */}
         <MenuItem>
+          <PencilOutline fontSize='small' sx={{ mr: 2 }} />
+          Edit
+        </MenuItem>
+        {/* </Link> */}
+        {/* <MenuItem>
           <ContentCopy fontSize='small' sx={{ mr: 2 }} />
           Duplicate
-        </MenuItem>
+        </MenuItem> */}
       </Menu>
     </Fragment>
   )
