@@ -302,11 +302,11 @@ const VehicleList = () => {
           </Tooltip>
           <Tooltip title='View'>
             <Box>
-              <Link href={`/apps/invoice/preview/${row._id}`} passHref>
-                <IconButton size='small' component='a' sx={{ textDecoration: 'none', mr: 0.5 }}>
-                  <EyeOutline />
-                </IconButton>
-              </Link>
+              {/* <Link href={`/apps/invoice/preview/${row._id}`} passHref> */}
+              <IconButton size='small' component='a' sx={{ textDecoration: 'none', mr: 0.5 }}>
+                <EyeOutline />
+              </IconButton>
+              {/* </Link> */}
             </Box>
           </Tooltip>
           <RowOptions id={row._id} />
