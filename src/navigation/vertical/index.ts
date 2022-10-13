@@ -59,6 +59,11 @@ const navigation = (): VerticalNavItemsType => {
       title: 'Charger App',
       icon: EvStation,
       path: '/apps/charger/main'
+    },
+    {
+      title: 'Maintainer App',
+      icon: CarWrench,
+      path: '/apps/maintainer/main'
     }
     // {
     //   sectionTitle: 'Chargers & Maintainers'

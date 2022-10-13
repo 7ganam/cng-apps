@@ -10,6 +10,7 @@ import calendar from 'src/store/apps/calendar'
 import permissions from 'src/store/apps/permissions'
 import vehicle from 'src/store/apps/vehicle'
 import charger from 'src/store/apps/charger'
+import maintainer from 'src/store/apps/maintainer'
 
 export const store = configureStore({
   reducer: {
@@ -20,7 +21,8 @@ export const store = configureStore({
     calendar,
     permissions,
     vehicle,
-    charger
+    charger,
+    maintainer
   },
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({

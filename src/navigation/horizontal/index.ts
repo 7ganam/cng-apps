@@ -75,6 +75,11 @@ const navigation = (): HorizontalNavItemsType => {
       title: 'Charger App',
       icon: EvStation,
       path: '/apps/charger/main'
+    },
+    {
+      title: 'Maintainer App',
+      icon: CarWrench,
+      path: '/apps/maintainer/main'
     }
   ]
 }

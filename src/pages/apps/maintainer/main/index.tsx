@@ -73,6 +73,10 @@ import 'react-datepicker/dist/react-datepicker.css'
 // ** Theme Config Import
 import themeConfig from 'src/configs/themeConfig'
 
+// ** Store & Actions Imports
+import { useDispatch, useSelector } from 'react-redux'
+import { wrongVehiclePlate, rightVehiclePlate, reset } from 'src/store/apps/maintainer'
+import { showQrModal, hideQrModal, fetchData } from 'src/store/apps/maintainer'
 // ** Styled Components
 const StyledGrid = styled(Grid)<GridProps>(({ theme }) => ({
   display: 'flex',
@@ -120,23 +124,17 @@ const Img = styled('img')(({ theme }) => ({
   height: '11rem',
   borderRadius: theme.shape.borderRadius
 }))
-// ** Store & Actions Imports
-import { useDispatch, useSelector } from 'react-redux'
-import { wrongVehiclePlate, rightVehiclePlate, reset } from 'src/store/apps/charger'
-import { showQrModal, hideQrModal, fetchData } from 'src/store/apps/charger'
 
-const ChargerMain = () => {
-  const DispenserIp = '192.168.0.12'
-
+const MaintainerMain = () => {
   // ** State
-  const [dispenserNumber, setDispenserNumber] = useState('4')
+  const [maintenancePeriod, setMaintenancePeriod] = useState('30')
 
   const [note, setNote] = useState('')
   const [loading, setLoading] = useState<boolean>(false)
 
   // ** Hooks
   const dispatch = useDispatch<AppDispatch>()
-  const store = useSelector((state: RootState) => state.charger)
+  const store = useSelector((state: RootState) => state.maintainer)
 
   const handleWrongPlate = () => {
     dispatch(wrongVehiclePlate())
@@ -146,9 +144,30 @@ const ChargerMain = () => {
     dispatch(rightVehiclePlate())
   }
 
-  const openDispenser = async (dispenserNo: string | number) => {
+  const updateMaintenance = async (note: string) => {
     try {
-      const res = axios.get(`https://${DispenserIp}/Charger${dispenserNo}_ON`)
+      setLoading(true)
+      const res = axios.put(`${process.env.NEXT_PUBLIC_BACKEND_URL}/cars/${store?.scannedVehicle?._id}`, {
+        new_maintainance_date: format(new Date(), 'MM/dd/yyyy'),
+        maintenance_period: maintenancePeriod
+      })
+      setLoading(false)
+      toast.success('Maintenance Updated')
+      console.log('res', res)
+    } catch (error) {
+      setLoading(false)
+      console.log(error)
+    }
+  }
+
+  const addNote = async (note: string) => {
+    try {
+      setLoading(true)
+      const res = axios.put(`${process.env.NEXT_PUBLIC_BACKEND_URL}/cars/${store?.scannedVehicle?._id}`, {
+        charger_note: note
+      })
+      setLoading(false)
+      toast.success('Note Added ')
       console.log('res', res)
     } catch (error) {
       console.log('sent open request')
@@ -174,20 +193,6 @@ const ChargerMain = () => {
     dispatch(hideQrModal())
   }
 
-  const addNote = async (note: string) => {
-    try {
-      setLoading(true)
-      const res = axios.put(`${process.env.NEXT_PUBLIC_BACKEND_URL}/cars/${store?.scannedVehicle?._id}`, {
-        charger_note: note
-      })
-      setLoading(false)
-      toast.success('Note Added')
-      console.log('res', res)
-    } catch (error) {
-      console.log('sent open request')
-    }
-  }
-
   let view1 = () => (
     <Grid item xs={12}>
       <Card sx={{ maxWidth: '600px', margin: 'auto' }}>
@@ -208,10 +213,10 @@ const ChargerMain = () => {
           >
             <CardContent>
               <Typography variant='h6' sx={{ mb: 2 }}>
-                Charge a new vehicle.
+                Maintain a new vehicle.
               </Typography>
               <Typography variant='body2' sx={{ mb: 2 }}>
-                Scan the QR code attached to the vehicle to open the dispenser
+                Scan the QR code attached to the vehicle
               </Typography>
             </CardContent>
             <CardActions className='card-action-dense'>
@@ -229,6 +234,7 @@ const ChargerMain = () => {
       </Card>
     </Grid>
   )
+
   let view2 = () => (
     <Grid item xs={12}>
       <Card sx={{ maxWidth: '600px', margin: 'auto' }}>
@@ -255,7 +261,7 @@ const ChargerMain = () => {
                 Is this the right plate number?
               </Typography>
               <Typography variant='body2' sx={{ mb: 2 }}>
-                Click yes if this is the number of the vehicle you are charging.
+                Click yes if this is the number of the vehicle .
               </Typography>
             </CardContent>
             <CardActions className='card-action-dense'>
@@ -282,43 +288,44 @@ const ChargerMain = () => {
           <Grid container spacing={2}>
             <StyledGrid2 item xs={12} md={4}>
               <CardContent sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <Img alt='valve' src='/images/cng/charger/valve.png' />
+                <Img alt='repair' src='/images/cng/maintainer/repair.png' />
               </CardContent>
             </StyledGrid2>
             <StyledGrid1 item xs={12} md={7} sx={{}}>
               <CardContent sx={{ p: theme => `${theme.spacing(6)} !important` }}>
                 <Typography variant='h6' sx={{ mb: 2 }}>
-                  Open Supply Dispenser
+                  Confirm Maintenance
                 </Typography>
                 <Box sx={{ py: 1, mb: 2, display: 'flex', flexWrap: 'wrap', alignItems: 'center' }}>
-                  <Typography variant='body2'>Choose dispenser number then click "Open"</Typography>
+                  <Typography variant='body2'>
+                    Input maintenance period (in days) to define the next maintenance date
+                  </Typography>
                 </Box>
                 <Typography
                   variant='subtitle2'
                   className='col-title'
                   sx={{ mb: { md: 2, xs: 0 }, color: 'text.primary' }}
                 >
-                  Dispenser Number:
+                  Maintenance Period:
                 </Typography>
-                <Select
+                <TextField
+                  fullWidth
+                  type={'number'}
+                  rows={2}
                   size='small'
-                  defaultValue='4'
-                  value={dispenserNumber}
+                  sx={{ mt: 3.5 }}
+                  value={maintenancePeriod}
                   onChange={e => {
-                    setDispenserNumber(e.target.value)
+                    setMaintenancePeriod(e.target.value)
                   }}
-                >
-                  <MenuItem value='1'>1</MenuItem>
-                  <MenuItem value='2'>2</MenuItem>
-                  <MenuItem value='3'>3</MenuItem>
-                  <MenuItem value='4'>4</MenuItem>
-                </Select>
+                />
 
                 <Button
+                  fullWidth
                   variant='contained'
-                  sx={{ ml: '10px', mt: '-2px' }}
+                  sx={{ mt: '20px' }}
                   onClick={() => {
-                    openDispenser(dispenserNumber)
+                    updateMaintenance()
                   }}
                 >
                   Open
@@ -393,11 +400,11 @@ const ChargerMain = () => {
           title={
             <Typography variant='h5'>
               <Typography variant='h5' sx={{ color: 'primary.main' }}>
-                Charger
+                Maintainer
               </Typography>
             </Typography>
           }
-          subtitle={<Typography variant='body2'>CNG Charger App</Typography>}
+          subtitle={<Typography variant='body2'>CNG Maintainer App</Typography>}
         />
         {store.view === 'view1' && view1()}
         {store.view === 'view2' && view2()}
@@ -407,4 +414,4 @@ const ChargerMain = () => {
   )
 }
 
-export default ChargerMain
+export default MaintainerMain

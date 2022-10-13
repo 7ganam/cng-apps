@@ -22,47 +22,32 @@ import { showQrModal, hideQrModal, fetchData } from 'src/store/apps/charger'
 // ** Third Party Imports
 import { QrReader } from 'react-qr-reader'
 
-const DialogConfirmation = () => {
+//** Types
+type Props = {
+  handleScan: (qr: string) => void
+  handleClickOpen: () => void
+  handleClose: () => void
+  open: boolean
+}
+
+const DialogConfirmation = (props: Props) => {
   const [data, setData] = useState('No result')
-
-  const handleScan = (qr: string) => {
-    if (qr) {
-      dispatch(fetchData(qr))
-      console.log('qr', qr)
-    }
-  }
-
-  const handleError = (err: string) => {
-    console.error(err)
-  }
-
-  const handleClickOpen = () => {
-    dispatch(showQrModal())
-  }
-
-  const handleClose = () => {
-    dispatch(hideQrModal())
-  }
-
-  // ** Hooks
-  const dispatch = useDispatch<AppDispatch>()
-  const store = useSelector((state: RootState) => state.charger)
 
   return (
     <Fragment>
-      <Button variant='contained' onClick={handleClickOpen} fullWidth>
+      <Button variant='contained' onClick={props.handleClickOpen} fullWidth>
         <QrcodeScan fontSize='small' sx={{ mr: 2 }} />
         Scan QR Code
       </Button>
 
       <Dialog
-        open={store.showQrModal}
+        open={props.open}
         disableEscapeKeyDown
         aria-labelledby='alert-dialog-title'
         aria-describedby='alert-dialog-description'
         onClose={(event, reason) => {
           if (reason !== 'backdropClick') {
-            handleClose()
+            props.handleClose()
           }
         }}
       >
@@ -76,7 +61,7 @@ const DialogConfirmation = () => {
                 // @ts-ignore
                 setData(result?.text)
                 // @ts-ignore
-                handleScan(result?.text)
+                props.handleScan(result?.text)
               }
 
               if (!!error) {
@@ -89,7 +74,7 @@ const DialogConfirmation = () => {
           <p>{data}</p>
         </DialogContent>
         <DialogActions className='dialog-actions-dense'>
-          <Button onClick={handleClose}>close</Button>
+          <Button onClick={props.handleClose}>close</Button>
         </DialogActions>
       </Dialog>
     </Fragment>

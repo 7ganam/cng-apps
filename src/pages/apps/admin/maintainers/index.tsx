@@ -243,7 +243,7 @@ const renderRemainingDays = (row: VehicleType): ReactNode => {
   let diffDays = differenceInDays(new Date(), new Date(str))
   let results =
     diffDays < row.maintenance_period ? (
-      <Typography variant='body2'>{diffDays.toString()}</Typography>
+      <Typography variant='body2'>{(row.maintenance_period - diffDays).toString()}</Typography>
     ) : (
       <CustomChip size='small' skin='light' color='error' label='needs maintenance' />
     )
