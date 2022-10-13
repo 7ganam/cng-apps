@@ -5,12 +5,6 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 // ** Axios Imports
 import axios from 'axios'
 
-interface DataParams {
-  q: string
-  dates?: Date[]
-  status: string
-}
-
 interface Redux {
   getState: any
   dispatch: Dispatch<any>

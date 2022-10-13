@@ -30,7 +30,7 @@ import { VerticalNavItemsType } from 'src/@core/layouts/types'
 const navigation = (): VerticalNavItemsType => {
   return [
     {
-      title: 'Admin',
+      title: 'Admin App',
       icon: MonitorDashboard,
       children: [
         {
@@ -54,6 +54,11 @@ const navigation = (): VerticalNavItemsType => {
           path: '/apps/admin/maintainers'
         }
       ]
+    },
+    {
+      title: 'Charger App',
+      icon: EvStation,
+      path: '/apps/charger/main'
     }
     // {
     //   sectionTitle: 'Chargers & Maintainers'

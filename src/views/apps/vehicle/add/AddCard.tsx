@@ -155,7 +155,6 @@ const EditCard = (props: Props) => {
   } = useForm<FormInputs>({ defaultValues })
 
   const onSubmit = async (data: FormInputs) => {
-    console.log('data', formatISO(data.last_maintenance_date as Date))
     setLoading(true)
     let postData = {
       ...data,

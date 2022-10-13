@@ -70,6 +70,11 @@ const navigation = (): HorizontalNavItemsType => {
           path: '/apps/admin/maintainers'
         }
       ]
+    },
+    {
+      title: 'Charger App',
+      icon: EvStation,
+      path: '/apps/charger/main'
     }
   ]
 }
